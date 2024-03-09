@@ -5,7 +5,7 @@ import { FaCopy } from "react-icons/fa";
 
 export default function Modal({ open, onClose, category }) {
   const copyToClipboard = () => {
-    const textToCopy = `sysu.vercel.com/${category?.toLowerCase()}`;
+    const textToCopy = `https://sysu-assignment.vercel.app/${category?.toLowerCase()}`;
     navigator.clipboard
       .writeText(textToCopy)
       .then(() => toast.success("Link copied to clipboard"))
@@ -21,7 +21,7 @@ export default function Modal({ open, onClose, category }) {
           Close
         </button>
         <div className="modal-content">
-          {`sysu.vercel.com/${category?.toLowerCase()}`}
+          {`https://sysu-assignment.vercel.app/${category?.toLowerCase()}`}
           <span>
             <FaCopy size={25} onClick={copyToClipboard} />
           </span>
