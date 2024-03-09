@@ -77,6 +77,7 @@ export default function Story() {
   const [starredCategories, setStarredCategories] = useState(
     JSON.parse(localStorage.getItem("starredCategories")) || []
   );
+  const [showCategoryList, setShowCategoryList] = useState(false);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -89,8 +90,7 @@ export default function Story() {
       // Check if the clicked element is outside the dropdown
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         // Close the dropdown
-        setShow3(false);
-        // setShow4(false);
+        setShowCategoryList(false);
       }
     };
 
@@ -119,8 +119,8 @@ export default function Story() {
   }, []);
 
   useEffect(() => {
-    if (randomCat.length > 0) {
-      const random = Math.floor(Math.random() * categories.length);
+    if (randomCat?.length > 0) {
+      const random = Math.floor(Math.random() * categories?.length);
       setCheck(randomCat[random]);
     }
   }, [randomCat]);
@@ -292,15 +292,14 @@ export default function Story() {
     setShow4(false);
   }
 
-  function handleClick() {
-    setShow3((prev) => !prev);
-    setShow4(false);
+  function handleShowCategoryList() {
+    setShowCategoryList((prev) => !prev);
   }
 
-  function handleClick2() {
-    setShow4((prev) => !prev);
-    setShow3(false);
-  }
+  // function handleClick2() {
+  //   setShow4((prev) => !prev);
+  //   setShow3(false);
+  // }
 
   useEffect(() => {
     const handleResize = () => {
@@ -657,7 +656,7 @@ export default function Story() {
                       />
                     </div>
 
-                    {searchText.length === 0 ? (
+                    {searchText?.length === 0 ? (
                       <ul className="search-list">
                         {filterCatList?.map((category) => (
                           <li
@@ -668,7 +667,7 @@ export default function Story() {
                           </li>
                         ))}
                       </ul>
-                    ) : searchResults.length > 0 ? (
+                    ) : searchResults?.length > 0 ? (
                       <ul className="search-list">
                         {searchResults.map((category) => (
                           <li
@@ -710,7 +709,11 @@ export default function Story() {
                 <label htmlFor="choose">
                   <h3>What are you looking for?</h3>
                 </label>
-                <div className="choose" ref={dropdownRef} onClick={handleClick}>
+                <div
+                  className="choose"
+                  ref={dropdownRef}
+                  onClick={handleShowCategoryList}
+                >
                   <input
                     type="text"
                     id="choose"
@@ -723,9 +726,10 @@ export default function Story() {
                 </div>
               </div>
 
-              {show4 ? (
+              {/* Optimized dropdown functionality */}
+              {showCategoryList && searchResults2?.length === 0 && (
                 <ul className="search-list search-list-2">
-                  {filterCatList.map((category) => (
+                  {filterCatList?.map((category) => (
                     <li
                       key={category}
                       onClick={() => handleCategorySelect2(category)}
@@ -736,13 +740,49 @@ export default function Story() {
                       >
                         {category}
                       </Link>
-                      {/* {category} */}
                     </li>
                   ))}
                 </ul>
-              ) : show3 && search.length === 0 ? (
+              )}
+
+              {showCategoryList && searchResults2?.length > 0 && (
                 <ul className="search-list search-list-2">
-                  {filterCatList.map((category) => (
+                  {searchResults2.map((category) => (
+                    <li
+                      key={category}
+                      onClick={() => handleCategorySelect2(category)}
+                    >
+                      <Link
+                        className="category-link"
+                        to={`/${category?.toLowerCase()}`}
+                      >
+                        {category}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {/* {show4 ? (
+                <ul className="search-list search-list-2">
+                  {filterCatList?.map((category) => (
+                    <li
+                      key={category}
+                      onClick={() => handleCategorySelect2(category)}
+                    >
+                      <Link
+                        className="category-link"
+                        to={`/${category?.toLowerCase()}`}
+                      >
+                        {category}
+                      </Link>
+                      {category}
+                    </li>
+                  ))}
+                </ul>
+              ) : show3 && search?.length === 0 ? (
+                <ul className="search-list search-list-2">
+                  {filterCatList?.map((category) => (
                     <li
                       key={category}
                       onClick={() => handleCategorySelect2(category)}
@@ -753,13 +793,13 @@ export default function Story() {
                       >
                         {category}
                       </Link>
-                      {/* {category} */}
+                      {category}
                     </li>
                   ))}
                 </ul>
               ) : (
                 show3 &&
-                searchResults2.length > 0 && (
+                searchResults2?.length > 0 && (
                   <ul className="search-list search-list-2">
                     {searchResults2.map((category) => (
                       <li
@@ -771,7 +811,7 @@ export default function Story() {
                     ))}
                   </ul>
                 )
-              )}
+              )} */}
             </div>
           </div>
 
@@ -839,7 +879,7 @@ export default function Story() {
                 </div>
               )}
 
-              {(!menu || search.length === 0) && (
+              {(!menu || search?.length === 0) && (
                 <div className="container">
                   <section className="item-section-main">
                     <div className="item-section-container">
